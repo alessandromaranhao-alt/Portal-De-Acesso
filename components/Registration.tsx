@@ -4,6 +4,7 @@ import { Camera, Upload, Scan, CheckCircle, AlertCircle, Loader2, Save, Car, Pho
 import { analyzeDocument, analyzeFace } from '../services/geminiService';
 import { GoogleGenAI, Type } from "@google/genai";
 import { User as UserInterface, UserType } from '../types';
+import { StorageService } from '../services/storageService';
 
 export const Registration: React.FC = () => {
   // Input Method State
@@ -290,7 +291,7 @@ export const Registration: React.FC = () => {
       } : undefined
     };
 
-    console.log("Saving to Database:", newUser);
+    StorageService.saveUser(newUser);
 
     setTimeout(() => {
       setSaveStatus('success');

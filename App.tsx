@@ -14,6 +14,7 @@ import { UserList } from './components/UserList';
 import { UnitList } from './components/UnitList';
 import { AutonomousSystem } from './components/AutonomousSystem';
 import { SystemMetrics, AccessLog, UserType, AccessStatus, Notification } from './types';
+import { StorageService } from './services/storageService';
 
 // Mock Data
 const mockMetrics: SystemMetrics = {
@@ -40,7 +41,16 @@ const mockNotifications: Notification[] = [
 
 const App: React.FC = () => {
   const [activeView, setActiveView] = useState('dashboard');
+  const [logs, setLogs] = useState<AccessLog[]>(() => StorageService.getLogs());
   const [notifications, setNotifications] = useState<Notification[]>(mockNotifications);
+
+  const currentMetrics: SystemMetrics = {
+    totalUsers: StorageService.getUsers().length,
+    activeVisitors: StorageService.getVisitors().filter(v => v.status !== "checked-out").length,
+    dailyAccesses: logs.length,
+    securityAlerts: logs.filter(l => l.status === AccessStatus.DENIED).length,
+    pendingDeliveries: StorageService.getDeliveries().filter(d => d.status === "waiting").length
+  };
   const [showNotifications, setShowNotifications] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -48,7 +58,7 @@ const App: React.FC = () => {
 
   const renderContent = () => {
     switch (activeView) {
-      case 'dashboard': return <Dashboard metrics={mockMetrics} logs={mockLogs} />;
+      case 'dashboard': return <Dashboard metrics={currentMetrics} logs={logs} />;
       case 'access': return <AccessControl />;
       case 'history': return <AccessHistory />;
       // People Management

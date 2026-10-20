@@ -3,6 +3,8 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Lock, Unlock, Phone, MessageCircle, AlertTriangle, Video, X, Clock, CheckCircle, RefreshCw, ScanLine, AlertCircle, Smartphone, User, Briefcase, Wrench, LogIn, LogOut, XCircle, Camera, CameraOff, Share2, Timer, Check, ScanFace } from 'lucide-react';
 import { Visitor, QRCodePayload } from '../types';
 import { validateQRToken, generateDynamicQRToken } from '../services/qrService';
+import { StorageService } from '../services/storageService';
+import { AccessStatus, UserType } from '../types';
 import { analyzeFace } from '../services/geminiService';
 
 // Mock pending visitors for demonstration

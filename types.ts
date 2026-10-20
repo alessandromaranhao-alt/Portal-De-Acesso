@@ -1,4 +1,3 @@
-
 export enum UserType {
   RESIDENT = 'Morador',
   OWNER = 'Proprietário',
@@ -191,6 +190,7 @@ export interface QRCodePayload {
   nm: string; // Name
   exp: number; // Expiration Timestamp
   unt?: string; // Unit (optional)
+  sig?: string; // Cryptographic integrity signature (HMAC-SHA256)
 }
 
 export interface QRValidationResult {

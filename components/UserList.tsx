@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { Search, Filter, MoreVertical, Phone, Mail, MapPin, Briefcase, User as UserIcon, Wrench, Home, Check, X, Edit2 } from 'lucide-react';
 import { User, UserType } from '../types';
+import { StorageService } from '../services/storageService';
 
 // Mock Data for demonstration
 const MOCK_USERS: User[] = [
@@ -24,7 +25,7 @@ interface UserListProps {
 }
 
 export const UserList: React.FC<UserListProps> = ({ category }) => {
-  const [users, setUsers] = useState<User[]>(MOCK_USERS);
+  const [users, setUsers] = useState<User[]>(() => StorageService.getUsers());
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState<'all' | 'active' | 'inactive'>('all');
   
@@ -58,7 +59,10 @@ export const UserList: React.FC<UserListProps> = ({ category }) => {
   };
 
   const handleSaveClick = (id: string) => {
-    setUsers(users.map(u => u.id === id ? { ...u, ...editForm } : u));
+    const updatedUsers = users.map(u => u.id === id ? { ...u, ...editForm } : u);
+    setUsers(updatedUsers);
+    const edited = updatedUsers.find(u => u.id === id);
+    if (edited) StorageService.saveUser(edited);
     setEditingId(null);
   };
 

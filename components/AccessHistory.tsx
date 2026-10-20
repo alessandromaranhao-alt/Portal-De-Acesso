@@ -2,6 +2,7 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { Search, Filter, Download, Calendar, ArrowUpRight, ArrowDownLeft, AlertCircle, CheckCircle, XCircle, ChevronLeft, ChevronRight, ChevronDown, ChevronUp, Camera, FileText, X, ArrowUpDown, Sparkles, Image as ImageIcon, Bell } from 'lucide-react';
 import { AccessLog, UserType, AccessStatus } from '../types';
+import { StorageService } from '../services/storageService';
 import { analyzeFace } from '../services/geminiService';
 
 // Extended Mock Data for History
@@ -19,7 +20,7 @@ const INITIAL_LOGS: AccessLog[] = [
 ];
 
 export const AccessHistory: React.FC = () => {
-  const [logs, setLogs] = useState<AccessLog[]>(INITIAL_LOGS);
+  const [logs, setLogs] = useState<AccessLog[]>(() => StorageService.getLogs());
   const [searchTerm, setSearchTerm] = useState('');
   const [filterType, setFilterType] = useState<string>('all');
   const [filterStatus, setFilterStatus] = useState<string>('all');

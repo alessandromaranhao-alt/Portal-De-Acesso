@@ -20,9 +20,9 @@ const mockFinancials: FinancialAllocation = {
   creatorSharePercentage: 50,
   creatorShareValue: 1250000,
   bankDetails: {
-    bank: '033 (Santander)',
-    branch: '0194',
-    account: '01012279-6'
+    bank: '000 (Banco Digital Simulado)',
+    branch: '0001',
+    account: '0000000-0'
   },
   allocations: [
     { category: 'P&D (IA Autônoma)', amount: 750000, percentage: 30 },
